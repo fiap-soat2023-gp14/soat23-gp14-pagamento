@@ -1,5 +1,5 @@
+import { IOrder } from 'src/core/application/repositories/IOrderGateway';
 import { IPaymentGateway } from '../../../core/application/external/IPaymentGateway';
-import { Order } from '../../../core/domain/entities/Order';
 
 export default class MercadoPagoPaymentGateway implements IPaymentGateway {
   private static readonly DEFAULT_PAYMENT_METHOD = 'visa';
@@ -8,7 +8,7 @@ export default class MercadoPagoPaymentGateway implements IPaymentGateway {
     'http://localhost:3000/payments/';
   private static readonly DEFAULT_EMAIL = 'email_lojinha_x@gmail.com';
 
-  async createPayment(order: Order): Promise<void> {
+  async createPayment(order: IOrder): Promise<void> {
     console.info('Sending payment.');
     const paymentCreationDTO = {
       externalId: order.id,

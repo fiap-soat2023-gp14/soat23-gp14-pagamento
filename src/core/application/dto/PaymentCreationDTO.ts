@@ -22,5 +22,4 @@ export class PaymentCreationDTO {
   @IsNotEmpty()
   @IsString()
   notificationUrl: string;
-
 }

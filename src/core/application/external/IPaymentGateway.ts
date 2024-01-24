@@ -1,5 +1,5 @@
-import { Order } from '../../domain/entities/Order';
+import { IOrder } from "../repositories/IOrderGateway";
 
 export interface IPaymentGateway {
-  createPayment(order: Order): Promise<void>;
+  createPayment(order: IOrder): Promise<void>;
 }

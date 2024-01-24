@@ -1,23 +1,22 @@
-import { IConnection } from '../adapters/external/IConnection';
-import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGateway';
-import { PaymentFeedbackDTO } from '../../core/application/dto/PaymentFeedbackDTO';
-import { Order } from '../../core/domain/entities/Order';
-import { PaymentUseCase } from '../../core/application/usecase/PaymentUseCase';
-import OrderGateway from '../adapters/gateway/OrderGateway';
+import { IOrder } from 'src/core/application/repositories/IOrderGateway';
 import PaymentAdapter from '../../core/application/adapter/PaymentAdapter';
+import { PaymentFeedbackDTO } from '../../core/application/dto/PaymentFeedbackDTO';
+import { PaymentUseCase } from '../../core/application/usecase/PaymentUseCase';
+import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGateway';
+import OrderGateway from '../adapters/gateway/OrderGateway';
 
 export class PaymentController {
-  public static async createPayment(order: Order) {
+  public static async createPayment(order: IOrder) {
     const paymentGateway = new MercadoPagoPaymentGateway();
     await PaymentUseCase.createPayment(order, paymentGateway);
   }
 
   public static async receivePaymentFeedback(
+    oauthToken: string,
     paymentFeedbackDTO: PaymentFeedbackDTO,
-    dbConnection: IConnection,
+    orderGateway: OrderGateway
   ): Promise<void> {
-    const orderGateway = new OrderGateway(dbConnection);
     const paymentFeedback = await PaymentAdapter.toDomain(paymentFeedbackDTO);
-    await PaymentUseCase.processPayment(paymentFeedback, orderGateway);
+    await PaymentUseCase.processPayment(oauthToken, paymentFeedback, orderGateway);
   }
 }

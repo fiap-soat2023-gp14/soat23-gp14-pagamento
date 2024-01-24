@@ -2,26 +2,28 @@ import {
   Body,
   Controller,
   HttpStatus,
-  Inject,
   Post,
-  Res,
+  Req,
+  Res
 } from '@nestjs/common';
 import { PaymentFeedbackDTO } from '../../core/application/dto/PaymentFeedbackDTO';
+import OrderGateway from '../adapters/gateway/OrderGateway';
 import { PaymentController } from '../controller/PaymentController';
-import { IConnection } from '../adapters/external/IConnection';
 
 @Controller('payments/')
 export default class PaymentApi {
   constructor(
-    @Inject(IConnection) private readonly dbConnection: IConnection,
+    private readonly orderGateway: OrderGateway,
   ) {}
 
   @Post()
   public async receivePaymentFeedback(
+    @Req() req,
     @Body() body: PaymentFeedbackDTO,
     @Res() response,
   ) {
-    await PaymentController.receivePaymentFeedback(body, this.dbConnection);
+    
+    await PaymentController.receivePaymentFeedback(req.headers['authorization'], body, this.orderGateway);
     return response.status(HttpStatus.NO_CONTENT).json();
   }
 }
