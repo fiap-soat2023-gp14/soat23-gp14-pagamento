@@ -8,7 +8,7 @@ export default class MercadoPagoPaymentGateway implements IPaymentGateway {
     'http://localhost:3000/payments/';
   private static readonly DEFAULT_EMAIL = 'email_lojinha_x@gmail.com';
 
-  async createPayment(order: IOrder): Promise<void> {
+  public async createPayment(order: IOrder): Promise<void> {
     console.info('Sending payment.');
     const paymentCreationDTO = {
       externalId: order.id,

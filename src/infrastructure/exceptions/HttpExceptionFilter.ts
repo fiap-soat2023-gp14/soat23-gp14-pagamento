@@ -15,7 +15,6 @@ export default class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    console.log(exception);
     const { message, status } = this.isBusinessException(exception);
     response.status(status).json({
       message,

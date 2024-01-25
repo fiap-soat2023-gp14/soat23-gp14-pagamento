@@ -30,13 +30,12 @@ export class GotHttpAdapter  {
       const response = await this.got.request(this.mapOptions(options))
       return this.mapResponse<TResponse>(response)
     } catch (error) {
-      console.log(error);
       if (error instanceof RequestError) {
-        const {  response, stack } = error
+        const {  response, message } = error
         const { body, statusCode, headers} = response ?? {}
         return {
           statusCode, 
-          error: stack, 
+          error: message, 
           body: body ?? {},
           headers: this.mapHeaders(headers)
         } as TResponse

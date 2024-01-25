@@ -1,7 +1,7 @@
 import PaymentAdapter from "src/core/application/adapter/PaymentAdapter"
 
 describe('PaymentAdapter', () => {
-    it('Should convert a paymentDTO to domain Payment', async () => {
+    it('should convert a paymentDTO to domain Payment', async () => {
         // arrange
         const paymentDTO = { 
             id: 123456,

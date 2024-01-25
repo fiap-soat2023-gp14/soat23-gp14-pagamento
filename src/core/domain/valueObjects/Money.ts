@@ -1,6 +1,6 @@
-import { ValueObject } from './ValueObject';
 import { IsNotEmpty, IsNumber, validate } from 'class-validator';
 import { ValidationException } from '../../../infrastructure/exceptions/ValidationException';
+import { ValueObject } from './ValueObject';
 
 class ValueProps {
   @IsNumber({

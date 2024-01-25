@@ -22,6 +22,7 @@ export class CPF extends ValueObject<ValueProps> {
     const valueProps = { value: cpfValue };
     return new CPF(valueProps);
   }
+  
   public async validate(): Promise<void> {
     if (
       this.value.length !== 11 ||

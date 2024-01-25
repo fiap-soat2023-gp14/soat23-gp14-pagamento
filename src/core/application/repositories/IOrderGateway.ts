@@ -6,10 +6,12 @@ export interface IOrderGateway {
 }
 
 export type OrderStatus = 'RECEIVED' | 'PAID' | 'CANCELLED' | 'IN_PREPARATION' | 'READY_FOR_DELIVERY' | 'FINISHED'
+
 export interface IOrderUpdate {
     id: string
     status: OrderStatus
 }
+
 export interface IOrder {
     id: string;
     status: OrderStatus
@@ -21,7 +23,7 @@ export interface IOrder {
     deliveredAt: Date;
 }
 
-interface ProductItem {
+export interface ProductItem {
     product: {
         id: string
         name: string
@@ -29,13 +31,13 @@ interface ProductItem {
         imageUrl: string
         price: Money
         createdAt: Date
-        category: string
+        category: 'SANDWICH' |  'GARNISH' |'DRINK' |'DESSERT'
     }
     observation: string
     quantity: number
 }
 
-interface User {
+export interface User {
     id: string;
     name: string;
     email: string;
