@@ -1,3 +1,4 @@
+import { HttpService } from '@nestjs/axios';
 import {
   Body,
   Controller,
@@ -12,18 +13,16 @@ import { PaymentController } from '../controller/PaymentController';
 
 @Controller('payments/')
 export default class PaymentApi {
-  constructor(
-    private readonly orderGateway: OrderGateway,
-  ) {}
+  constructor(private readonly controller: PaymentController) {}
 
   @Post()
   public async receivePaymentFeedback(
     @Req() req,
     @Body() body: PaymentFeedbackDTO,
     @Res() response,
-  ) {
-    
-    await PaymentController.receivePaymentFeedback(req.headers['authorization'], body, this.orderGateway);
+  ): Promise<void> {
+    const oauthToken = req.headers['authorization']
+    await this.controller.receivePaymentFeedback(oauthToken, body, new OrderGateway(new HttpService()));
     return response.status(HttpStatus.NO_CONTENT).json();
   }
 }

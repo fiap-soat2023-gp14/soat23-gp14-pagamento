@@ -20,11 +20,13 @@ export class PaymentUseCase {
         case 'approved': {
           console.info('Payment approved.');
           await orderGateway.updateOrder({ id: paymentFeedback.orderId, status: 'PAID' }, oauthToken)
+          break
         }
         
         case 'declined': {
           console.info('Payment declined.');
           await orderGateway.updateOrder({ id: paymentFeedback.orderId, status: 'CANCELLED' }, oauthToken)
+          break
         }
       }
     }

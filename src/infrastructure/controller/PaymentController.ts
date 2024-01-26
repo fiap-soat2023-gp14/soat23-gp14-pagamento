@@ -6,12 +6,12 @@ import MercadoPagoPaymentGateway from '../adapters/external/MercadoPagoPaymentGa
 import OrderGateway from '../adapters/gateway/OrderGateway';
 
 export class PaymentController {
-  public static async createPayment(order: IOrder) {
+  public async createPayment(order: IOrder) {
     const paymentGateway = new MercadoPagoPaymentGateway();
     await PaymentUseCase.createPayment(order, paymentGateway);
   }
 
-  public static async receivePaymentFeedback(
+  public async receivePaymentFeedback(
     oauthToken: string,
     paymentFeedbackDTO: PaymentFeedbackDTO,
     orderGateway: OrderGateway

@@ -1,24 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { catchError, lastValueFrom, map } from 'rxjs';
 import { IOrder, IOrderGateway, IOrderUpdate } from '../../../core/application/repositories/IOrderGateway';
-import { GotHttpAdapter, IHttpResponse } from '../http/GotHttpAdapter';
 
 @Injectable()
 export default class OrderGateway implements IOrderGateway {
-  constructor(private readonly httpService: GotHttpAdapter) {}
+  constructor(private readonly httpService: HttpService) {}
   
   public async updateOrder(order: IOrderUpdate, oauthToken: string): Promise<IOrder> {
-    try {
-      const req = await this.httpService.request<IHttpResponse<IOrder>>({
-        method: 'PUT',
-        url: `${process.env.ORDER_HOST}/${order.id}`,
-        body: order.status,
-        headers: { 'Authorization': oauthToken }
-      })
-      console.log('Order updated successfully.');
-      return req.body
-    } catch (error) {
-      console.error('Error updating order:', error);
-      throw error;
-    }
+    const req = this.httpService.request<IOrder>({
+      method: 'PUT',
+      url: `${process.env.CLUSTER_URL}/orders/${order.id}`,
+      data: { status: order.status},
+      headers: { Authorization: oauthToken },
+    })
+    .pipe(map((res) => res.data))
+    .pipe(catchError(() => {
+      throw new BadRequestException('Unable to update Order')
+    })) 
+    
+    return await lastValueFrom(req)
   }
 }
