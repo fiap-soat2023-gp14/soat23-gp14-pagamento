@@ -10,6 +10,7 @@ export class MongoConnection implements IConnection {
       tlsCAFile: 'global-bundle.pem',
     });
   }
+  
   async connect() {
     try {
       await this.client.connect();
@@ -19,6 +20,7 @@ export class MongoConnection implements IConnection {
       throw error;
     }
   }
+  
   public getCollection(collectionName) {
     return this.client.db().collection(collectionName);
   }

@@ -1,8 +1,8 @@
 {
   "name": "fiap-pagamento-application",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Microservico responsavel pelo gerenciamento de pagamento de pedidos.",
+  "author": "Vinicius Gabriel Hoffmann <vinig.dev@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -20,15 +20,18 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/axios": "^3.0.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/microservices": "^9.4.2",
     "@nestjs/platform-express": "^9.0.0",
+    "axios": "^1.6.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "mongodb": "^5.6.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
+    "ts-mockito": "^2.6.1",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
@@ -54,5 +57,14 @@
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.2.0",
     "typescript": "^5.0.0"
+  },
+  "jestSonar": {
+    "sonar56x": true,
+    "reportPath": "coverage",
+    "reportFile": "test-report.xml",
+    "indent": 4
+  },
+  "main": "main.ts",
+  "repository": "git@github.com:silvertonsg-fiap/soat23-gp14-pagamento.git"
   }
-}
+

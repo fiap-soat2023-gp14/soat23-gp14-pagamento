@@ -1,37 +1,33 @@
-import { OrderStatus } from '../../domain/enums/OrderStatus';
-import OrderUseCase from './OrderUseCase';
-import { IOrderGateway } from '../repositories/IOrderGateway';
-import { Order } from '../../domain/entities/Order';
-import { IPaymentGateway } from '../external/IPaymentGateway';
 import { PaymentFeedback } from '../../domain/entities/PaymentFeedback';
+import { IPaymentGateway } from '../external/IPaymentGateway';
+import { IOrder, IOrderGateway } from '../repositories/IOrderGateway';
 
 export class PaymentUseCase {
   public static async createPayment(
-    order: Order,
+    order: IOrder,
     paymentGateway: IPaymentGateway,
   ) {
     await paymentGateway.createPayment(order);
   }
 
   public static async processPayment(
+    oauthToken: string,
     paymentFeedback: PaymentFeedback,
     orderGateway: IOrderGateway,
   ) {
     if (paymentFeedback.type === 'payment') {
-      if (paymentFeedback.status === 'approved') {
-        console.info('Payment approved.');
-        await OrderUseCase.updateOrder(
-          paymentFeedback.orderId,
-          OrderStatus.PAID,
-          orderGateway,
-        );
-      } else if (paymentFeedback.status === 'declined') {
-        console.info('Payment declined.');
-        await OrderUseCase.updateOrder(
-          paymentFeedback.orderId,
-          OrderStatus.CANCELLED,
-          orderGateway,
-        );
+      switch (paymentFeedback.status) {
+        case 'approved': {
+          console.info('Payment approved.');
+          await orderGateway.updateOrder({ id: paymentFeedback.orderId, status: 'PAID' }, oauthToken)
+          break
+        }
+        
+        case 'declined': {
+          console.info('Payment declined.');
+          await orderGateway.updateOrder({ id: paymentFeedback.orderId, status: 'CANCELLED' }, oauthToken)
+          break
+        }
       }
     }
   }
