@@ -17,6 +17,6 @@ export class PaymentController {
     orderGateway: OrderGateway
   ): Promise<void> {
     const paymentFeedback = await PaymentAdapter.toDomain(paymentFeedbackDTO);
-    await PaymentUseCase.processPayment(oauthToken, paymentFeedback, orderGateway);
+    // await PaymentUseCase.processPayment(oauthToken, paymentFeedback, orderGateway);
   }
 }
