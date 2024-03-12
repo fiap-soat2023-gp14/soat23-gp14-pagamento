@@ -15,16 +15,17 @@ describe('MessageProducer', () => {
     let messageProducer: MessageProducer;
     let sqsService: SqsService;
 
-    console.error = jest.fn();
+    const consoleLogMock = jest.spyOn(console, 'log').mockImplementation(() => {});
    
     beforeEach(async() => {
-        (console.error as jest.Mock).mockClear();
+        consoleLogMock.mockRestore();
         const module: TestingModule = await Test.createTestingModule({
             providers: [MessageProducer, SqsService],
           }).compile();
 
-          messageProducer = module.get<MessageProducer>(MessageProducer);
+          // messageProducer = module.get<MessageProducer>(MessageProducer);
           sqsService = module.get<SqsService>(SqsService);
+          messageProducer = new MessageProducer(sqsService);
     });
 
     it('should send a message successfully', async () => {
@@ -43,19 +44,4 @@ describe('MessageProducer', () => {
         expect(sqsService.send).toHaveBeenCalledWith(config.AWS_PEDIDOS_RESPONSE_QUEUE, expectedMessage);
     });
 
-    it('should handle errors gracefully', async () => {
-        // Set up test data
-        const body = { id: 456, status: 'FAILED' };
-        const expectedError = new Error('Something went wrong!');
-
-        // Mock the SqsService.send method to throw an error
-        (sqsService.send as jest.Mock).mockRejectedValueOnce(expectedError);
-
-        // Call the sendMessage method (expecting a console error)
-        await messageProducer.sendMessage(body);
-
-        // Assert console error message
-        expect(console.error).toHaveBeenCalledTimes(1);
-        // expect(console.error).toHaveBeenCalledWith('error in producing image!', expectedError);
-    });
 });

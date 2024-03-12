@@ -8,7 +8,7 @@ import { Test, TestingModule } from '@nestjs/testing';
  // Assuming it's in the same directory
 jest.mock('./MessageProducer'); // Mock MessageProducer to avoid external calls
 jest.mock('src/core/application/adapter/PaymentAdapter'); // Mock PaymentAdapter to isolate its behavior
-jest.mock('.src/core/application/usecase/PaymentUseCase'); // Mock PaymentUseCase to focus on MessageHandler logic
+jest.mock('src/core/application/usecase/PaymentUseCase'); // Mock PaymentUseCase to focus on MessageHandler logic
 
 describe('MessageHandler', () => {
     let messageHandler: MessageHandler;
@@ -18,12 +18,13 @@ describe('MessageHandler', () => {
 
     beforeEach(async () => {
 
-        messageHandler = new MessageHandler(messageProducer);
+
         const module: TestingModule = await Test.createTestingModule({
             providers: [MessageProducer],
           }).compile();
 
           messageProducer = module.get<MessageProducer>(MessageProducer);
+          messageHandler = new MessageHandler(messageProducer);
     });
 
     it('should handle a message successfully', async () => {
@@ -33,8 +34,7 @@ describe('MessageHandler', () => {
         // Mock external functions
         (PaymentAdapter.toDomain as jest.Mock).mockResolvedValueOnce({
             paymentId: 123,
-            status: 'APPROVED',
-            // ...other fields
+            status: 'APPROVED'
         });
         (PaymentUseCase.processConsumer as jest.Mock).mockResolvedValueOnce({});
 
