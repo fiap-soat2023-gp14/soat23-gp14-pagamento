@@ -1,0 +1,9 @@
+{
+    "number": "ORD-123",
+    "type": "payment",
+    "dateCreated": "2022-07-01T00:00:00.000Z",
+    "status": "approved",
+    "data": {
+        "id": "ORD-123"
+    }
+}
