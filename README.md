@@ -9,6 +9,7 @@ Ele possuis as funções de:
 ## Pré-requisitos
 - Node
 - MongoDB
+- SQS queues
 
 ## Executando a aplicação
 - Faça o download do repositório através do arquivo zip ou do terminal usando o git clone
@@ -17,6 +18,14 @@ Ele possuis as funções de:
 ```bash
 $ yarn install
 ```
+
+Para rodar a aplicação localmente, é necessário criar as filas order-request e order-response no SQS, elas são usadas para coreagrafia da SAGA de pagamento do pedido. Atualize o arquivo local.env com as cofigurações.
+
+```bash
+# load configs to env
+$ source local.env
+```
+
 - Inicie a aplicação
 ```bash
 # development
