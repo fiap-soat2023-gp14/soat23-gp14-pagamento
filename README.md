@@ -5,7 +5,7 @@ Este Microserviço é reponsável por gerenciar os pagamentos dos pedido na Plat
 Ele possuis as funções de:
 - Criar pagamento
 - Receber pagamento
-O serviço é responsavel por integrar com um gateway de pagamento (futuro) e em caso de erro, tratar o erro e retornar via fila para o service de pedido noticando o status do pedido/integração.
+O serviço é responsavel por integrar com um gateway de pagamento (futuro) e em caso de erro, tratar o erro e retornar via fila para o service de pedido noticando o status do pagamento/integração.
 
 ## Pré-requisitos
 - Node
