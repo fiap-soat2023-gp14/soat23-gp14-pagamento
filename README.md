@@ -5,10 +5,12 @@ Este Microserviço é reponsável por gerenciar os pagamentos dos pedido na Plat
 Ele possuis as funções de:
 - Criar pagamento
 - Receber pagamento
+O serviço é responsavel por integrar com um gateway de pagamento (futuro) e em caso de erro, tratar o erro e retornar via fila para o service de pedido noticando o status do pagamento/integração.
 
 ## Pré-requisitos
 - Node
 - MongoDB
+- SQS queues
 
 ## Executando a aplicação
 - Faça o download do repositório através do arquivo zip ou do terminal usando o git clone
@@ -17,6 +19,14 @@ Ele possuis as funções de:
 ```bash
 $ yarn install
 ```
+
+Para rodar a aplicação localmente, é necessário criar as filas order-request e order-response no SQS, elas são usadas para coreagrafia da SAGA de pagamento do pedido. Atualize o arquivo local.env com as cofigurações.
+
+```bash
+# load configs to env
+$ source local.env
+```
+
 - Inicie a aplicação
 ```bash
 # development
